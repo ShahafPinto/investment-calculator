@@ -3,18 +3,21 @@ import React from "react";
 
 export default function Table({ tableData }) {
   console.log(tableData);
-  let initialTable = [
-    {
-      year: undefined,
-      valueEndOfYear: undefined,
-      interest: undefined,
-      annualInvestment: undefined,
-    },
-  ];
-
-  // if(tableData.year){
-  //     initialTable = tableData
-  // }
+//   let initialTable = [
+//     {
+//       year: undefined,
+//       valueEndOfYear: undefined,
+//       interest: undefined,
+//       annualInvestment: undefined,
+//     }
+//   ];
+    // const a = [{year: 1,
+    //     valueEndOfYear: 22,
+    //     interest: 22,
+    //     annualInvestment: 33},{year: 2,
+    //         valueEndOfYear: 33,
+    //         interest: 33,
+    //         annualInvestment: 44}]
 
   return (
     <table id="result">
@@ -27,15 +30,16 @@ export default function Table({ tableData }) {
           <th>Invested Capital</th>
         </tr>
       </thead>
-      {tableData.map((row) => {
-        // {console.log('here')}
-        <tr>
-          <td>{row.year}hi</td>
-          <td>{row.valueEndOfYear}fff</td>
-          <td>{row.interest}fff</td>
-          <td>{row.annualInvestment}fff</td>
-        </tr>;
-      })}
-    </table>
+      <tbody>
+        {tableData.map((val, valIndex)=>
+            <tr key={valIndex}>
+                <td>{val.year}</td>                
+                <td>{val.valueEndOfYear}</td>
+                <td>{isNaN(val.interest) ? (val.interest).toString() : val.interest}</td>
+                <td>{val.annualInvestment}</td>
+            </tr>
+        )}
+      </tbody>
+    </ table>
   );
 }
