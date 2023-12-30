@@ -5,27 +5,23 @@ import React, { useState } from "react";
 import { calculateInvestmentResults } from "./util/investment.js";
 
 function App() {
-  // const initialTable = {
-  //   initialInvestment: undefined,
-  //   annualInvestment: undefined,
-  //   expectedReturn: undefined,
-  //   duration: undefined,
-  // };
-
-  const [tableData, setTableData] = useState({ initialInvestment: 15000,
+  const [tableData, setTableData] = useState({
+    initialInvestment: 15000,
     annualInvestment: 1200,
     expectedReturn: 6,
-    duration: 10,});
+    duration: 10,
+  });
 
-  function handleChange(inputIdent, newValue){
-    setTableData((prevData)=>{
-        return{
-          ...prevData,  
-          [inputIdent] : Number(newValue),
-        }
-    })
-}
-  // console.log("table data:", tableData);
+  const inputIsValid = tableData.duration >= 1;
+
+  function handleChange(inputIdent, newValue) {
+    setTableData((prevData) => {
+      return {
+        ...prevData,
+        [inputIdent]: Number(newValue),
+      };
+    });
+  }
 
   function getData() {
     if (
@@ -38,12 +34,15 @@ function App() {
       setTableData(newTableData);
     }
   }
-
   return (
     <div>
       <Header />
-      <UserInputs onChange={handleChange} tableData={tableData}/>
-      <Table tableData={tableData} />
+      <UserInputs onChange={handleChange} tableData={tableData} />
+      {inputIsValid ? (
+        <Table tableData={tableData} />
+      ) : (
+        <p className="center">Input Is Not Valid</p>
+      )}
     </div>
   );
 }

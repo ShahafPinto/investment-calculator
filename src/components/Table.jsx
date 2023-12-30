@@ -1,5 +1,4 @@
 import React from "react";
-// import formatter from '../util/investment'
 import { calculateInvestmentResults, formatter } from "../util/investment.js";
 
 export default function Table({ tableData }) {
@@ -22,7 +21,6 @@ export default function Table({ tableData }) {
     return result;
   }
 
-  //   let totalInterest = 0;
   function getTotalInterst(valueEndOfYear, annualInvestment, year) {
     const totalInterest =
       valueEndOfYear - annualInvestment * year - getInitialInvestment();
