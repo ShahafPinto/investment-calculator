@@ -5,24 +5,36 @@ import React, { useState } from "react";
 import { calculateInvestmentResults } from "./util/investment.js";
 
 function App() {
-  const initialTable = {
-    initialInvestment: undefined,
-    annualInvestment: undefined,
-    expectedReturn: undefined,
-    duration: undefined,
-  };
+  // const initialTable = {
+  //   initialInvestment: undefined,
+  //   annualInvestment: undefined,
+  //   expectedReturn: undefined,
+  //   duration: undefined,
+  // };
 
-  const [tableData, setTableData] = useState([]);
-  console.log("table data:", tableData);
+  const [tableData, setTableData] = useState({ initialInvestment: 15000,
+    annualInvestment: 1200,
+    expectedReturn: 6,
+    duration: 10,});
+
+  function handleChange(inputIdent, newValue){
+    setTableData((prevData)=>{
+        return{
+          ...prevData,  
+          [inputIdent] : Number(newValue),
+        }
+    })
+}
+  // console.log("table data:", tableData);
 
   function getData() {
     if (
-      initialTable.initialInvestment &&
-      initialTable.annualInvestment &&
-      initialTable.expectedReturn &&
-      initialTable.duration
+      tableData.initialInvestment &&
+      tableData.annualInvestment &&
+      tableData.expectedReturn &&
+      tableData.duration
     ) {
-      const newTableData = calculateInvestmentResults(initialTable);
+      const newTableData = calculateInvestmentResults(tableData);
       setTableData(newTableData);
     }
   }
@@ -30,7 +42,7 @@ function App() {
   return (
     <div>
       <Header />
-      <UserInputs initialTable={initialTable} getData={getData} />
+      <UserInputs onChange={handleChange} tableData={tableData}/>
       <Table tableData={tableData} />
     </div>
   );

@@ -1,24 +1,33 @@
 import React from "react";
-// import {calculateInvestmentResults} from '../util/investment.js'
+// import formatter from '../util/investment'
+import { calculateInvestmentResults, formatter } from "../util/investment.js";
 
 export default function Table({ tableData }) {
-  console.log(tableData);
-//   let initialTable = [
-//     {
-//       year: undefined,
-//       valueEndOfYear: undefined,
-//       interest: undefined,
-//       annualInvestment: undefined,
-//     }
-//   ];
-    // const a = [{year: 1,
-    //     valueEndOfYear: 22,
-    //     interest: 22,
-    //     annualInvestment: 33},{year: 2,
-    //         valueEndOfYear: 33,
-    //         interest: 33,
-    //         annualInvestment: 44}]
+  console.log("tableData:", tableData);
 
+  const resultsData = calculateInvestmentResults(tableData);
+  function getInitialInvestment() {
+    const result =
+      resultsData[0].valueEndOfYear -
+      resultsData[0].interest -
+      resultsData[0].annualInvestment;
+    return result;
+  }
+
+  console.log(resultsData);
+
+  function getInvestedCapital(valueEndOfYear, annualInvestment, year) {
+    const interest = getTotalInterst(valueEndOfYear, annualInvestment, year);
+    const result = valueEndOfYear - interest;
+    return result;
+  }
+
+  //   let totalInterest = 0;
+  function getTotalInterst(valueEndOfYear, annualInvestment, year) {
+    const totalInterest =
+      valueEndOfYear - annualInvestment * year - getInitialInvestment();
+    return totalInterest;
+  }
   return (
     <table id="result">
       <thead>
@@ -26,20 +35,37 @@ export default function Table({ tableData }) {
           <th>Year</th>
           <th>Investment Value</th>
           <th>Interest (Year)</th>
-          {/* <th>Total Interest</th> */}
+          <th>Total Interest</th>
           <th>Invested Capital</th>
         </tr>
       </thead>
       <tbody>
-        {tableData.map((val, valIndex)=>
-            <tr key={valIndex}>
-                <td>{val.year}</td>                
-                <td>{val.valueEndOfYear}</td>
-                <td>{isNaN(val.interest) ? (val.interest).toString() : val.interest}</td>
-                <td>{val.annualInvestment}</td>
-            </tr>
-        )}
+        {resultsData.map((val, valIndex) => (
+          <tr key={valIndex}>
+            <td>{val.year}</td>
+            <td>{formatter.format(val.valueEndOfYear)}</td>
+            <td>{formatter.format(val.interest)}</td>
+            <td>
+              {formatter.format(
+                getTotalInterst(
+                  val.valueEndOfYear,
+                  val.annualInvestment,
+                  val.year
+                )
+              )}
+            </td>
+            <td>
+              {formatter.format(
+                getInvestedCapital(
+                  val.valueEndOfYear,
+                  val.annualInvestment,
+                  val.year
+                )
+              )}
+            </td>
+          </tr>
+        ))}
       </tbody>
-    </ table>
+    </table>
   );
 }

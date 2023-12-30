@@ -1,69 +1,49 @@
 import React from "react";
 
-export default function UserInputs({ initialTable, getData }) {
-  function handleInitialChange(event) {
-    initialTable.initialInvestment = event.target.value;
-    getData();
-  }
-  function handleAnnualChange(event) {
-    initialTable.annualInvestment = event.target.value;
-    getData();
-  }
-  function handleReturnChange(event) {
-    initialTable.expectedReturn = event.target.value;
-    getData();
-  }
-  function handleDurationChange(event) {
-    initialTable.duration = event.target.value;
-    getData();
-  }
-
+export default function UserInputs({ tableData, onChange}) {
+    
   return (
-    <div id="user-input">
+    <section id="user-input">
       <div className="input-group">
-        <p id="user-input">
+        <p>
           <label>INITIAL INVESTMENT</label>
           <input
-            onChange={handleInitialChange}
+            onChange={(event)=>onChange('initialInvestment', event.target.value)}
             type="number"
-            min="0"
-            step="1"
             required
+            value={tableData.initialInvestment}
           />
         </p>
-        <p id="user-input">
+        <p>
           <label>ANNUAL INVESTMENT</label>
           <input
-            onChange={handleAnnualChange}
+            onChange={(event)=>onChange('annualInvestment', event.target.value)}
             type="number"
-            min="0"
-            step="1"
             required
+            value={tableData.annualInvestment}
           />
         </p>
       </div>
       <div className="input-group">
-        <p id="user-input">
+        <p>
           <label>EXPECTED RETURN</label>
           <input
-            onChange={handleReturnChange}
+            onChange={(event)=>onChange('expectedReturn', event.target.value)}
             type="number"
-            min="0"
-            step="1"
             required
+            value={tableData.expectedReturn}
           />
         </p>
-        <p id="user-input">
+        <p>
           <label>DURATION</label>
           <input
-            onChange={handleDurationChange}
+            onChange={(event)=>onChange('duration', event.target.value)}
             type="number"
-            min="0"
-            step="1"
             required
+            value={tableData.duration}
           />
         </p>
       </div>
-    </div>
+    </section>
   );
 }
